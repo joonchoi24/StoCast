@@ -8,12 +8,16 @@ import pickle
 import xgboost as xgb
 import numpy as np
 
+st.title("Welcome to...")
+st.image('gaga.png')
 st.write("""
-# StoCast
-## Tesla ($TSLA) Stock Movement Prediction App
+## A Transparent and Robust Stock Movement Forecasting Platform with Explainable Ensemble Learning.
 ### CSE420 Honours Project - OCdt Joon Choi, 29793
          
-This app predicts how $TSLA's stock price will have moved 5 days from now.
-The data from this app shall only be used as reference ONLY. The creator is not liable for any loss of any kind.
+This app predicts how $TSLA's stock price will have moved 5 days from now, using financial indicators and social media trends.
+         Click on any of the tabs on the left to get started!
+
+         
+*The data from this app shall only be used as reference ONLY. The creator is not liable for any loss of any kind.*
 """)
 st.write('---')

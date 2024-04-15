@@ -89,8 +89,8 @@ def profit(df):
     prod_absprop = init  # Similar but constant dollars, $250 - $500 - $750 - $1000
     prod_oppo = init  # prod_prop but opposite proportions
     values = {'prod': [], 'prod_prop': [], 'prod_absprop': [], 'date': []}
-    #for index, row in df.iloc[::5].iterrows(): # every 5 days
-    for index, row in df.iterrows():
+    for index, row in df.iloc[::5].iterrows(): # every 5 days
+    #for index, row in df.iterrows():
         if row['pred_sign'] == 1:
             prod = prod * ((row['Actual Movement'] / 100) + 1)  # Multiplies the init remaining by the actual change of price
             if row['StoCast Prediction'] < 1:
@@ -132,9 +132,17 @@ def profit(df):
 best_dollar = profit(table_df_multi)
 
 st.write(f'Directional Accuracy: {(mda(table_df_multi))*100:.1f}%')
-st.write(f'Your \$1000 could have become as much as **\${(1000*((best_dollar/100)+1)):.2f}** over {len(table_df_multi)} days!')
-st.write(f'That is a **{best_dollar:.2f}%** increase!' )
+st.write(f'Your \$1000 could have become as much as: ')
+if best_dollar > 0:
+    st.markdown(f'<h1 style="color:green;">${(1000*((best_dollar/100)+1)):.2f} ({best_dollar:.2f}%)</h1>', unsafe_allow_html=True)
+else:
+    st.markdown(f'<h1 style="color:red;">${(1000*((best_dollar/100)+1)):.2f} ({best_dollar:.2f}%)</h1>', unsafe_allow_html=True)
+st.write(f'within **{len(table_df_multi)}** days.')
 
+st.write('Note: ')
+st.write('*prod* assumes full reinvestment of any amount remaining after gaining or losing money from the last trade.')
+st.write('*prod_prop* takes the model''s output as its confidence level, investing 25\% of funds for growth 1\% or less, 50\% for 3\% or less, 75\% for 5\% or less, and 100\% for anything greater.')
+st.write('*prod_absprop* is similar, except absolute amounts invested instead of percentages, reducing the risk. In the same brackets, \$250, \$500, \$750, or \$1000 is invested.')
 # Multiple dates
 #selected_indices = st.multiselect('Select rows from the DataFrame:', grad.index)
 
