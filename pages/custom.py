@@ -9,6 +9,8 @@ import pickle
 import xgboost as xgb
 import numpy as np
 
+# Todo: Add reddit sentences
+
 st.set_page_config(page_title="Custom Check", page_icon="📈")
 
 grad = pd.read_csv(r'C:/Users/jchoi/Desktop/School/Year 4 Fall/CSE420/App/v6_merge.csv')
@@ -44,22 +46,63 @@ def user_input_features():
     EMA_12 = st.sidebar.slider('12-Day Exponential Moving Average Change from Yesterday', X.EMA_12.min(), X.EMA_12.max(), X.EMA_12.mean())
     MACD = st.sidebar.slider('MACD Change from Yesterday', X.MACD.min(), X.MACD.max(), X.MACD.mean())
     MACD_9 = st.sidebar.slider('9-day MACD Change from Yesterday', X.MACD_9.min(), X.MACD_9.max(), X.MACD_9.mean())
-    MACD_momentum = st.sidebar.slider('MACD Momentum', X.MACD_momentum.min(), X.MACD_momentum.max())
+    # MACD_momentum = st.sidebar.slider('MACD Momentum', X.MACD_momentum.min(), X.MACD_momentum.max())
     MACD_signal = st.sidebar.slider('MACD Signal', X.MACD_signal.min(), X.MACD_signal.max())
     RSI = st.sidebar.slider('Relative Strength Indicator Value', X.RSI.min(), X.RSI.max(), X.RSI.mean())
-    RSI_overbought = st.sidebar.slider('RSI Over 65', X.RSI_overbought.min(), X.RSI_overbought.max())
-    RSI_oversold = st.sidebar.slider('RSI Under 35', X.RSI_oversold.min(), X.RSI_oversold.max())
+    # RSI_overbought = st.sidebar.slider('RSI Over 65', X.RSI_overbought.min(), X.RSI_overbought.max())
+    # RSI_oversold = st.sidebar.slider('RSI Under 35', X.RSI_oversold.min(), X.RSI_oversold.max())
     RSI_signal = st.sidebar.slider('RSI Signal', X.RSI_overbought.min(), X.RSI_overbought.max())
     count_wsb = st.sidebar.slider('Number of Submissions & Comments on r/WSB', X.count_wsb.min(), X.count_wsb.max(), X.count_wsb.mean())
     upvotes_wsb = st.sidebar.slider('Average Number of Upvotes on r/WSB', X.upvotes_wsb.min(), X.upvotes_wsb.max(), X.upvotes_wsb.mean())
-    bullish_wsb = st.sidebar.slider('Bullish Sentiment in r/WSB', X.bullish_wsb.min(), X.bullish_wsb.max(), X.bullish_wsb.mean())
-    neutral_wsb = st.sidebar.slider('Neutral Sentiment in r/WSB', X.neutral_wsb.min(), X.neutral_wsb.max(), X.neutral_wsb.mean())
-    bearish_wsb = st.sidebar.slider('Bearish Sentiment in r/WSB', X.bearish_wsb.min(), X.bearish_wsb.max(), X.bearish_wsb.mean())
+    # bullish_wsb = st.sidebar.slider('Bullish Sentiment in r/WSB', X.bullish_wsb.min(), X.bullish_wsb.max(), X.bullish_wsb.mean())
+    # neutral_wsb = st.sidebar.slider('Neutral Sentiment in r/WSB', X.neutral_wsb.min(), X.neutral_wsb.max(), X.neutral_wsb.mean())
+    # bearish_wsb = st.sidebar.slider('Bearish Sentiment in r/WSB', X.bearish_wsb.min(), X.bearish_wsb.max(), X.bearish_wsb.mean())
+    wsb_sentiment = st.sidebar.slider('Sentiment on r/WSB', -1, 1, 0)
     count_stocks = st.sidebar.slider('Number of Submissions & Comments on r/Stocks', X.count_stocks.min(), X.count_stocks.max(), X.count_stocks.mean())
     upvotes_stocks = st.sidebar.slider('Average Number of Upvotes on r/Stocks', X.upvotes_stocks.min(), X.upvotes_stocks.max(), X.upvotes_stocks.mean())
-    bullish_stocks = st.sidebar.slider('Bullish Sentiment in r/Stocks', X.bullish_stocks.min(), X.bullish_stocks.max(), X.bullish_stocks.mean())
-    neutral_stocks = st.sidebar.slider('Neutral Sentiment in r/Stocks', X.neutral_stocks.min(), X.neutral_stocks.max(), X.neutral_stocks.mean())
-    bearish_stocks = st.sidebar.slider('Bearish Sentiment in r/Stocks', X.bearish_stocks.min(), X.bearish_stocks.max(), X.bearish_stocks.mean())
+    stocks_sentiment = st.sidebar.slider('Sentiment on r/Stocks', -1, 1, 0)
+    # bullish_stocks = st.sidebar.slider('Bullish Sentiment in r/Stocks', X.bullish_stocks.min(), X.bullish_stocks.max(), X.bullish_stocks.mean())
+    # neutral_stocks = st.sidebar.slider('Neutral Sentiment in r/Stocks', X.neutral_stocks.min(), X.neutral_stocks.max(), X.neutral_stocks.mean())
+    # bearish_stocks = st.sidebar.slider('Bearish Sentiment in r/Stocks', X.bearish_stocks.min(), X.bearish_stocks.max(), X.bearish_stocks.mean())
+    # sliders don't account for the sentiment scores properly so this is an estimate
+    if MACD > MACD_9:
+        MACD_momentum = 1
+    else:
+        MACD_momentum = 0
+
+    RSI_overbought = 0
+    RSI_oversold = 0
+    if RSI > 65:
+        RSI_overbought = 1
+    elif RSI < 35:
+        RSI_oversold = 1
+
+    if wsb_sentiment == 1:
+        bullish_wsb = 0.6
+        neutral_wsb = 0.2
+        bearish_wsb = 0.2
+    elif wsb_sentiment == 0:
+        bullish_wsb = 0.2
+        neutral_wsb = 0.6
+        bearish_wsb = 0.2
+    else:
+        bullish_wsb = 0.2
+        neutral_wsb = 0.2
+        bearish_wsb = 0.6
+
+    if stocks_sentiment == 1:
+        bullish_stocks = 0.6
+        neutral_stocks = 0.2
+        bearish_stocks = 0.2
+    elif stocks_sentiment == 0:
+        bullish_stocks = 0.2
+        neutral_stocks = 0.6
+        bearish_stocks = 0.2
+    else:
+        bullish_stocks = 0.2
+        neutral_stocks = 0.2
+        bearish_stocks = 0.6
+
     data = {'Close': Close,
             'Volume': Volume,
             'Open': Open,
@@ -99,7 +142,7 @@ st.write('---')
 
 # Build Regression Model
 model = xgb.Booster()
-model.load_model('xgboost_model2.model')
+model.load_model('xgboost_model3.model')
 
 gpu_id = 0  # Specify the GPU ID
 if hasattr(model, 'gpu_id'):
