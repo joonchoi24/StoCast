@@ -5,5 +5,5 @@ numpy
 plotly
 matplotlib
 xgboost
-sklearn
+scikit-learn
 shap
