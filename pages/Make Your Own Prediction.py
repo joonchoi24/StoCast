@@ -13,7 +13,7 @@ import numpy as np
 
 st.set_page_config(page_title="Custom Check", page_icon="📈")
 
-grad = pd.read_csv(r'C:/Users/jchoi/Desktop/School/Year 4 Fall/CSE420/App/v6_merge.csv')
+grad = pd.read_csv(r'v6_merge.csv')
 
 columns_to_convert = ['Close', 'Next_Close','Long_Change',
        'Volume', 'Open', 'Gap', 'High', 'Low', 'EMA_26', 'EMA_12', 'MACD',

@@ -12,7 +12,7 @@ import numpy as np
 
 st.set_page_config(page_title="Historical Check", page_icon="📈")
 
-grad = pd.read_csv(r'C:/Users/jchoi/Desktop/School/Year 4 Fall/CSE420/App/v6_merge_test_v4.csv')
+grad = pd.read_csv(r'v6_merge_test_v4.csv')
 model = xgb.Booster()
 model.load_model('xgboost_model4.model')
 
