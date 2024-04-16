@@ -9,7 +9,7 @@ import xgboost as xgb
 import numpy as np
 
 st.title("Welcome to...")
-st.image('gaga2.png')
+st.image('gaga3_real.png')
 st.write("""
 ## A Transparent and Robust Stock Movement Forecasting Platform with Explainable Ensemble Learning.
 ### CSE420 Honours Project - OCdt Joon Choi, 29793
