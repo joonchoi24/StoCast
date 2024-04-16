@@ -1,4 +1,4 @@
-![gaga](https://github.com/joonchoi24/StoCast/assets/77981713/6579c7af-80cb-4ff6-bd86-8423caba233b)
+![gaga2](https://github.com/joonchoi24/StoCast/assets/77981713/684bca53-5783-4a5c-b602-37fdb1cef4cb)
 
 # StoCast, A Transparent and Robust Stock Movement Forecasting Platform with Explainable Ensemble Learning
 ## CSE420 Honours Project
