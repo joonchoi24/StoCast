@@ -1,7 +1,9 @@
 streamlit
+streamlit_shap
 pandas
 numpy
 plotly
 matplotlib
 xgboost
 sklearn
+shap
