@@ -142,7 +142,7 @@ st.write('---')
 
 # Build Regression Model
 model = xgb.Booster()
-model.load_model('xgboost_model3.model')
+model.load_model('xgboost_model4.model')
 
 gpu_id = 0  # Specify the GPU ID
 if hasattr(model, 'gpu_id'):
