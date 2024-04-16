@@ -185,5 +185,4 @@ if button_clicked:
     explainer1 = shap.Explainer(model, X)
     shap_values1 = explainer1(X)
 
-    st_shap(shap.plots.waterfall(shap_values1[0]), height=300)
     st.write('---')
