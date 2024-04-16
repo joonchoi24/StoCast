@@ -1,1 +1,7 @@
-shap==0.42.1
+streamlit
+pandas
+numpy
+plotly
+matplotlib
+xgboost
+sklearn
