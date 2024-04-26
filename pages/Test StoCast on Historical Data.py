@@ -89,7 +89,8 @@ def profit(df):
     prod_absprop = init  # Similar but constant dollars, $250 - $500 - $750 - $1000
     cell_division = init  # 5 different cells reinvesting themselves fully, hybrid approach
     prod_short = init # takes advantage of negative days too
-    values = {'prod': [], 'prod_prop': [], 'prod_absprop': [], 'prod_short': [],'cell_division': [], 'date': []}
+    base = init
+    values = {'prod': [], 'prod_prop': [], 'prod_absprop': [], 'prod_short': [],'cell_division': [], 'base': [], 'date': []}
     #for index, row in df.iloc[::5].iterrows(): # every 5 days
     skip_count = 0
     cell1 = cell_division/5
@@ -102,6 +103,7 @@ def profit(df):
         if skip_count > 0: # if we need to skip rows i.e. days to wait for 5 days
             # call the appropriate cell
             active_cell = cell_array[skip_count]
+            base = base * ((row['Actual Movement'] / 100) + 1)
             if row['pred_sign'] == 1:
                 active_cell = active_cell * ((row['Actual Movement'] / 100) + 1)
                 cell_array[skip_count] = active_cell
@@ -115,6 +117,7 @@ def profit(df):
             skip_count -= 1
             continue
         if row['pred_sign'] == 1:
+            base = base * ((row['Actual Movement'] / 100) + 1)
             skip_count = 4
             active_cell = cell_array[skip_count]
             prod = prod * ((row['Actual Movement'] / 100) + 1)  # Multiplies the init remaining by the actual change of price
@@ -138,6 +141,7 @@ def profit(df):
                 if prod_absprop >= 1000:
                     prod_absprop = (prod_absprop - 1000) + (1000 * ((row['Actual Movement'] / 100) + 1))
         else:
+            base = base * ((row['Actual Movement'] / 100) + 1)
             skip_count = 4
             active_cell = cell_array[skip_count]
             if prod_short > 0:
@@ -156,13 +160,14 @@ def profit(df):
         values['prod_absprop'].append(prod_absprop)
         values['prod_short'].append(prod_short)
         values['cell_division'].append(sum(cell_array))
+        values['base'].append(base)
         values['date'].append(index)
 
     # Generate graph
     chart_data = pd.DataFrame(values, index=pd.to_datetime(values['date']))
 
     # Plot the chart
-    st.line_chart(chart_data[['prod', 'prod_prop', 'prod_absprop','prod_short','cell_division']])
+    st.line_chart(chart_data[['prod', 'prod_prop', 'prod_absprop','prod_short','base','cell_division']])
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
