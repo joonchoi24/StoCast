@@ -170,8 +170,15 @@ def profit(df):
     # Generate graph
     chart_data = pd.DataFrame(values, index=pd.to_datetime(values['date']))
 
+    line_styles = {
+    'prod': 'solid',
+    'prod_short': 'dotted',
+    'base': 'dashed',
+    'sp500': 'dashdot'
+}
+
     # Plot the chart
-    st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']])
+    st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']], line_width=2, line_style=line_styles)
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
