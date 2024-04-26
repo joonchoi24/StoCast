@@ -42,7 +42,7 @@ grad.index = pd.to_datetime(grad.index)
 
 start_date, end_date = st.date_input('Select date range:', [grad.index.min(), grad.index.max()])
 selected_rows_multi = grad.loc[start_date:end_date]
-unwanted_columns = ['Next_Close', 'Positive_Spike', 'Long_Change','Gap']
+unwanted_columns = ['Next_Close', 'Positive_Spike', 'Long_Change','Gap','SP_Change']
 selected_row_filtered_multi = selected_rows_multi.drop(columns=unwanted_columns)
 selected_row_dropped_multi = selected_row_filtered_multi.select_dtypes(include='number')
 dmatrix_sample_multi = xgb.DMatrix(selected_row_dropped_multi)
