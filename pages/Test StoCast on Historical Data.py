@@ -155,10 +155,10 @@ def profit(df):
             #     active_cell += profit
             #     cell_array[skip_count] = active_cell
         values['prod'].append(prod)
-        #values['prod_prop'].append(prod_prop)
-        #values['prod_absprop'].append(prod_absprop)
+        values['prod_prop'].append(prod_prop)
+        values['prod_absprop'].append(prod_absprop)
         values['prod_short'].append(prod_short)
-        #values['cell_division'].append(sum(cell_array))
+        values['cell_division'].append(sum(cell_array))
         values['base'].append(base)
         values['date'].append(index)
 
@@ -166,7 +166,7 @@ def profit(df):
     chart_data = pd.DataFrame(values, index=pd.to_datetime(values['date']))
 
     # Plot the chart
-    st.line_chart(chart_data[['prod', 'prod_prop', 'prod_absprop','prod_short','base','cell_division']])
+    st.line_chart(chart_data[['prod', 'prod_short','base']])
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
