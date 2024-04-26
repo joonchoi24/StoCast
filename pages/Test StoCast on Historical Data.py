@@ -103,7 +103,6 @@ def profit(df):
         if skip_count > 0: # if we need to skip rows i.e. days to wait for 5 days
             # call the appropriate cell
             active_cell = cell_array[skip_count]
-            base = base * ((row['Actual Movement'] / 100) + 1)
             if row['pred_sign'] == 1:
                 active_cell = active_cell * ((row['Actual Movement'] / 100) + 1)
                 cell_array[skip_count] = active_cell
