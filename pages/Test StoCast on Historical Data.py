@@ -12,7 +12,7 @@ import numpy as np
 
 st.set_page_config(page_title="Historical Check", page_icon="📈")
 
-grad = pd.read_csv(r'v6_merge_test_v4.csv')
+grad = pd.read_csv(r'v6_merge_test_v5.csv')
 model = xgb.Booster()
 model.load_model('xgboost_model4.model')
 
@@ -53,7 +53,8 @@ table_data_multi = []
 for i in range(len(sample_prediction_multi)):
     row_data = {
         'StoCast Prediction': sample_prediction_multi[i],
-        'Actual Movement': selected_rows_multi['Long_Change'][i]
+        'Actual Movement': selected_rows_multi['Long_Change'][i],
+        'S&P 500 Movement': selected_rows_multi['SP_Change'][i]
     }
     table_data_multi.append(row_data)
 
@@ -90,7 +91,8 @@ def profit(df):
     cell_division = init  # 5 different cells reinvesting themselves fully, hybrid approach
     prod_short = init # takes advantage of negative days too
     base = init
-    values = {'prod': [], 'prod_prop': [], 'prod_absprop': [], 'prod_short': [],'cell_division': [], 'base': [], 'date': []}
+    sp500 = init
+    values = {'prod': [], 'prod_prop': [], 'prod_absprop': [], 'prod_short': [],'cell_division': [], 'base': [], 'sp500': [], 'date': []}
     #for index, row in df.iloc[::5].iterrows(): # every 5 days
     skip_count = 0
     cell1 = cell_division/5
@@ -117,6 +119,7 @@ def profit(df):
             continue
         if row['pred_sign'] == 1:
             base = base * ((row['Actual Movement'] / 100) + 1)
+            sp500 = sp500 * ((row['S&P 500 Movement'] / 100) + 1)
             skip_count = 4
             active_cell = cell_array[skip_count]
             prod = prod * ((row['Actual Movement'] / 100) + 1)  # Multiplies the init remaining by the actual change of price
@@ -141,6 +144,7 @@ def profit(df):
                     prod_absprop = (prod_absprop - 1000) + (1000 * ((row['Actual Movement'] / 100) + 1))
         else:
             base = base * ((row['Actual Movement'] / 100) + 1)
+            sp500 = sp500 * ((row['S&P 500 Movement'] / 100) + 1)
             skip_count = 4
             active_cell = cell_array[skip_count]
             if prod_short > 0:
@@ -160,13 +164,14 @@ def profit(df):
         values['prod_short'].append(prod_short)
         values['cell_division'].append(sum(cell_array))
         values['base'].append(base)
+        values['sp500'].append(sp500)
         values['date'].append(index)
 
     # Generate graph
     chart_data = pd.DataFrame(values, index=pd.to_datetime(values['date']))
 
     # Plot the chart
-    st.line_chart(chart_data[['prod', 'prod_short','base']])
+    st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']])
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
@@ -178,7 +183,7 @@ def profit(df):
     return ((best-init)/init)*100
 
 best_dollar = profit(table_df_multi)
-st.write(table_df_multi[['StoCast Prediction','Actual Movement']])
+st.write(table_df_multi[['StoCast Prediction','Actual Movement', 'S&P 500 Movement']])
 
 st.write(f'Directional Accuracy: {(mda(table_df_multi))*100:.1f}%')
 st.write(f'Your \$1000 could have become as much as: ')
