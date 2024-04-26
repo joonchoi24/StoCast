@@ -155,10 +155,10 @@ def profit(df):
             #     active_cell += profit
             #     cell_array[skip_count] = active_cell
         values['prod'].append(prod)
-        values['prod_prop'].append(prod_prop)
-        values['prod_absprop'].append(prod_absprop)
+        #values['prod_prop'].append(prod_prop)
+        #values['prod_absprop'].append(prod_absprop)
         values['prod_short'].append(prod_short)
-        values['cell_division'].append(sum(cell_array))
+        #values['cell_division'].append(sum(cell_array))
         values['base'].append(base)
         values['date'].append(index)
 
