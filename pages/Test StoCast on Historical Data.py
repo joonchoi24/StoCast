@@ -20,14 +20,14 @@ gpu_id = 0  # Specify the GPU ID
 if hasattr(model, 'gpu_id'):
     model.set_param({"gpu_id": gpu_id})
 
-columns_to_convert = ['Close', 'Next_Close','Long_Change',
+columns_to_convert = ['Close', 'Next_Close','Long_Change','SP_Change'
        'Volume', 'Open', 'Gap', 'High', 'Low', 'EMA_26', 'EMA_12', 'MACD',
        'MACD_9', 'RSI','count_wsb', 'upvotes_wsb', 'bullish_wsb',
        'neutral_wsb', 'bearish_wsb','count_stocks', 'upvotes_stocks', 'bullish_stocks',
        'neutral_stocks', 'bearish_stocks']
 grad[columns_to_convert] = grad[columns_to_convert].apply(pd.to_numeric, errors='coerce')
 
-X_non = grad.drop(columns=['Next_Close','Positive_Spike', 'Long_Change','Gap']) 
+X_non = grad.drop(columns=['Next_Close','Positive_Spike', 'Long_Change','SP_Change','Gap']) 
 X = X_non.select_dtypes(include='number')
 print("This is X")
 print(X)
