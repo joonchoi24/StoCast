@@ -178,7 +178,7 @@ def profit(df):
 }
 
     # Plot the chart
-    st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']], line_width=2, line_style=line_styles)
+    st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']], line_style=line_styles)
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
