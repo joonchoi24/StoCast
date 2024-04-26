@@ -174,7 +174,7 @@ def profit(df):
     print(f"Full: {((prod-init)/init)*100:.1f}% change within {len(df)} days")
     print(f"Percentage proportional: {((prod_prop-init)/init)*100:.1f}% change within {len(df)} days")
     print(f"Absolute proportional: {((prod_absprop-init)/init)*100:.1f}% change within {len(df)} days")
-    best = max(prod, prod_prop, prod_absprop)
+    best = max(prod, prod_prop, prod_absprop, prod_short, cell_division, base)
     return ((best-init)/init)*100
 
 best_dollar = profit(table_df_multi)
