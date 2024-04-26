@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 import pickle
 import xgboost as xgb
 import numpy as np
-import st_echarts
+from streamlit_echarts import st_echarts
 
 # Todo: historical range, pick and choose and display social media data
 
