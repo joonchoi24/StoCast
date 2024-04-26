@@ -178,7 +178,7 @@ def profit(df):
     chart_data['date'] = pd.to_datetime(chart_data['date'])
     chart_data.set_index('date', inplace=True)
     echarts_data = {
-    "xAxis": {"type": "time"},
+    "xAxis": {"type": "date"},
     "yAxis": {"type": "value"},
     "series": [
         {"data": chart_data['prod'].tolist(), "type": "line", "name": "prod"},
