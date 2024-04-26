@@ -189,7 +189,7 @@ def profit(df):
 }
 
 # Render the ECharts chart
-st_echarts(echarts_data, height="500px")
+    st_echarts(echarts_data, height="500px")
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
