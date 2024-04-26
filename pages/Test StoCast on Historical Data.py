@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 import pickle
 import xgboost as xgb
 import numpy as np
+from streamlit_echarts import st_echarts
 
 # Todo: historical range, pick and choose and display social media data
 
@@ -168,10 +169,27 @@ def profit(df):
         values['date'].append(index)
 
     # Generate graph
-    chart_data = pd.DataFrame(values, index=pd.to_datetime(values['date']))
+    # chart_data = pd.DataFrame(values, index=pd.to_datetime(values['date']))
 
-    # Plot the chart
-    st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']])
+    # # Plot the chart
+    # st.line_chart(chart_data[['prod', 'prod_short','base', 'sp500']])
+
+    chart_data = pd.DataFrame(values)
+    chart_data['date'] = pd.to_datetime(chart_data['date'])
+    chart_data.set_index('date', inplace=True)
+    echarts_data = {
+    "xAxis": {"type": "time"},
+    "yAxis": {"type": "value"},
+    "series": [
+        {"data": chart_data['prod'].tolist(), "type": "line", "name": "prod"},
+        {"data": chart_data['prod_short'].tolist(), "type": "line", "name": "prod_short"},
+        {"data": chart_data['base'].tolist(), "type": "line", "name": "base"},
+        {"data": chart_data['sp500'].tolist(), "type": "line", "name": "sp500"}
+    ]
+}
+
+# Render the ECharts chart
+st_echarts(echarts_data, height="500px")
     # Calculate and display results
     print(f"Always reinvesting fully, $1000 became: {prod}")
     print(f"Reinvesting 25~100% proportionally, $1000 became: {prod_prop}")
