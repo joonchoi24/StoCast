@@ -41,7 +41,7 @@ st.write('Check for yourself how StoCast does on historical data.')
 grad.set_index('Date', inplace=True)
 grad.index = pd.to_datetime(grad.index)
 
-start_date, end_date = st.date_input('Select date range:', [grad.index.min(), grad.index.max()])
+start_date, end_date = st.date_input('Select date range:', [grad.index.min(), grad.index.max()], min_value=grad.index.min(), max_value=grad.index_max())
 selected_rows_multi = grad.loc[start_date:end_date]
 unwanted_columns = ['Next_Close', 'Positive_Spike', 'Long_Change','Gap','SP_Change']
 selected_row_filtered_multi = selected_rows_multi.drop(columns=unwanted_columns)
