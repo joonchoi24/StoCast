@@ -187,5 +187,3 @@ if button_clicked:
     shap_values1 = explainer1(X)
 
     st.write('---')
-
-st.set_option('deprecation.showPyplotGlobalUse', False)
