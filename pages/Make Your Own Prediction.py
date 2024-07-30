@@ -12,6 +12,7 @@ import numpy as np
 # Todo: Add reddit sentences
 
 st.set_page_config(page_title="Custom Check", page_icon="📈")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 grad = pd.read_csv(r'v6_merge.csv')
 
@@ -166,7 +167,7 @@ elif prediction[0] < 0:
 
 st.write('---')
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+
 
 button_clicked = st.button("Explain Prediction")
 
