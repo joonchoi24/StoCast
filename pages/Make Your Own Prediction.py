@@ -166,7 +166,7 @@ elif prediction[0] < 0:
 
 st.write('---')
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+#st.set_option('deprecation.showPyplotGlobalUse', False)
 
 button_clicked = st.button("Explain Prediction")
 
