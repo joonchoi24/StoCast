@@ -12,7 +12,7 @@ import numpy as np
 # Todo: Add reddit sentences
 
 st.set_page_config(page_title="Custom Check", page_icon="📈")
-st.set_option('deprecation.showPyplotGlobalUse', False)
+
 
 grad = pd.read_csv(r'v6_merge.csv')
 
@@ -187,3 +187,5 @@ if button_clicked:
     shap_values1 = explainer1(X)
 
     st.write('---')
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
